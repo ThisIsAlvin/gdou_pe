@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.viv.dao.CallBoardOperation">
+    <!--添加一个实体-->
+    <insert id="insert" parameterType="com.viv.entity.CallBoard" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO call_board
+        (message, type, recent_time)
+        VALUES (#{message},#{type},#{recent_time})
+    </insert>
+    <!--删除一个实体-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM call_board
+        WHERE id = #{id}
+    </delete>
+    <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
+    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.CallBoard">
+        SELECT * FROM call_board
+        <where>
+            <if test="like == null">
+                <if test="callBoard != null">
+                    <if test="callBoard.id != null">
+                        id = #{callBoard.id}
+                    </if>
+                    <if test="callBoard.message != null">
+                        AND message = #{callBoard.message}
+                    </if>
+                    <if test="callBoard.type != null">
+                        AND type = #{callBoard.type}
+                    </if>
+                    <if test="callBoard.recent_time != null">
+                        AND recent_time = #{callBoard.recent_time}
+                    </if>
+                </if>
+            </if>
+            <if test="like != null">
+                <if test="callBoard != null">
+                    <if test="callBoard.id != null">
+                        id LIKE #{callBoard.id}
+                    </if>
+                    <if test="callBoard.message != null">
+                        AND message LIKE #{callBoard.message}
+                    </if>
+                    <if test="callBoard.type != null">
+                        AND type LIKE #{callBoard.type}
+                    </if>
+                </if>
+                <if test="startTime != null">
+                    AND recent_time &gt;= #{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND recent_time &lt;= #{endTime}
+                </if>
+            </if>
+        </where>
+        <if test="page != null">
+            ORDER BY ${page.orderFieldStr} ${page.orderDirectionStr}
+            <if test="page.pageStart>-1 and page.pageSize>-1">
+                limit #{page.pageStart},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+    <!--动态更新一个实体-->
+    <update id="update" parameterType="com.viv.entity.CallBoard">
+        UPDATE call_board
+        <set>
+            <if test="message != null">
+                message = #{message},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="recent_time != null">
+                recent_time = #{recent_time}
+            </if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>
