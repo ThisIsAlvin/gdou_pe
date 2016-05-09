@@ -1,5 +1,6 @@
 package com.viv.controller;
 
+import com.viv.Config;
 import com.viv.entity.CallBoard;
 import com.viv.service.CallBoardService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by viv on 16-3-28.
@@ -17,23 +21,45 @@ import java.util.Date;
  */
 @Controller
 public class HelloController {
-    private Date date = new Date();
-    private String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-    private Timestamp ts_date = Timestamp.valueOf(nowTime);
-//    private CallBoardService callBoardService = new CallBoardService();
+    Date date = new Date();
+    String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    Timestamp ts_date = Timestamp.valueOf(nowTime);
+    CallBoardService callBoardService = new CallBoardService();
 
-
-/*    @RequestMapping(value = "/test/callBoard/insert")
-    public String index1() {
+    @RequestMapping(value = "/test/callBoard/insert")
+    public @ResponseBody String index1() {
         CallBoard callBoard = new CallBoard();
         callBoard.setMessage("test");
+        callBoard.setType(0);
         callBoard.setRecent_time(ts_date);
         Integer id = callBoardService.insert(callBoard);
         return id.toString();
-}*/
-   @RequestMapping(value = "/test/callBoard/insert")
-    public @ResponseBody String index1() {
+        }
 
-    return "ok";
-}
+    @RequestMapping(value = "/test/callBoard/delete")
+    public @ResponseBody String index2() {
+        callBoardService.delete(new Integer(2));
+        return "delete";
+    }
+
+    @RequestMapping(value = "/test/callBoard/update")
+    public @ResponseBody String index3(){
+        CallBoard callBoard = new CallBoard();
+        callBoard.setId(1);
+        callBoard.setMessage("updateTest");
+        callBoardService.update(callBoard);
+        return "update";
+    }
+
+    @RequestMapping(value = "/test/callBoard/select")
+    public @ResponseBody List<CallBoard> index4(){
+        Map map = new HashMap();
+        CallBoard callBoard = new CallBoard();
+        callBoard.setMessage("t");
+        map.put(Config.callBoard, callBoard);
+        map.put(Config.like, "1");
+        List<CallBoard> callBoards = callBoardService.select(map);
+        return callBoards;
+    }
+
 }

@@ -7,14 +7,13 @@
             <transactionManager type="JDBC" />
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver" />
-                <property name="url" value="jdbc:mysql://localhost:3306/fproto" />
+                <property name="url" value="jdbc:mysql://localhost:3306/gdou_pe" />
                 <property name="username" value="root" />
                 <property name="password" value="wteam13" />
             </dataSource>
         </environment>
     </environments>
     <mappers>
-        <mapper resource="com.viv.dao.CallBoardMapper.xml"/>
-
+        <mapper resource="com/viv/dao/CallBoardMapper.xml"/>
     </mappers>
 </configuration>

@@ -3,13 +3,8 @@ package com.viv.service;
 import com.viv.Config;
 import com.viv.dao.CallBoardOperation;
 import com.viv.entity.CallBoard;
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
@@ -17,25 +12,12 @@ import java.util.Map;
  * Created by viv on 16-5-9.
  */
 public class CallBoardService {
-    private static Reader reader;
-    private static SqlSessionFactory sessionFactory;
 
-    static {
-        try {
-            reader = Resources.getResourceAsReader(Config.resource);
-            sessionFactory = new SqlSessionFactoryBuilder().build(reader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static SqlSessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
 
 
     public Integer insert(CallBoard callBoard) {
-        SqlSession session = sessionFactory.openSession();
+        SqlSession session = SessionFactory.getSessionFactory().openSession();
         try {
             CallBoardOperation callBoardOperation = session.getMapper(CallBoardOperation.class);
             Integer id = callBoardOperation.insert(callBoard);
@@ -47,7 +29,7 @@ public class CallBoardService {
     }
 
     public void delete(Integer id) {
-        SqlSession session = sessionFactory.openSession();
+        SqlSession session = SessionFactory.getSessionFactory().openSession();
         try {
             CallBoardOperation callBoardOperation = session.getMapper(CallBoardOperation.class);
             callBoardOperation.delete(id);
@@ -58,7 +40,7 @@ public class CallBoardService {
     }
 
     public List<CallBoard> select(Map map) {
-        SqlSession session = sessionFactory.openSession();
+        SqlSession session = SessionFactory.getSessionFactory().openSession();
         if (map.containsKey(Config.like) && map.containsKey(Config.callBoard)) {
             CallBoard callBoard = (CallBoard) map.get(Config.callBoard);
             if (callBoard.getMessage() != null) {
@@ -77,7 +59,7 @@ public class CallBoardService {
     }
 
     public int update(CallBoard callBoard) {
-        SqlSession session = sessionFactory.openSession();
+        SqlSession session = SessionFactory.getSessionFactory().openSession();
         try {
             CallBoardOperation callBoardOperation = session.getMapper(CallBoardOperation.class);
             int count = callBoardOperation.update(callBoard);
