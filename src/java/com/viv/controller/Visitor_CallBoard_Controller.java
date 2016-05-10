@@ -48,12 +48,16 @@ public class Visitor_CallBoard_Controller {
             map.put(Config.count, "1");
             List<CallBoard> counts = callBoardService.select(map);
             map.clear();
-            int count = counts.get(0).getId();
-            int maxIndex = count / Config.PAGE_SIZE;
-            if (pageIndex < 0 || pageIndex > maxIndex) {
-                result = Config.ERROR;
-                message = "请求页面超出范围";
-                throw new ControllerException(message);
+            if (counts.size() > 0) {
+                int count = counts.get(0).getId();
+                int maxIndex = count / Config.PAGE_SIZE;
+                if (pageIndex < 0 || pageIndex > maxIndex) {
+                    result = Config.ERROR;
+                    message = " 请求页面超出范围";
+                    throw new ControllerException(message);
+                }
+            } else {
+                pageIndex = 0;
             }
             /*数据过滤*/
             /*权限检验*/

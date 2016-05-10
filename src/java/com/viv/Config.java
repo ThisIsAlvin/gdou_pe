@@ -20,27 +20,28 @@ public class Config {
     public static final String endTime = "endTime";
     /*各各实体的常量值*/
     public static final String callBoard = "callBoard";
-
+    public static final String user = "user";
 
     /*--------------------页面返回常用标示---------------------------*/
-
     /*返回result*/
     public static final String RESULT = "result";
+
     /*返回message*/
     public static final String MESSAGE = "message";
-
     /*错误*/
     public static final String ERROR = "error";
+
     /*成功*/
     public static final String SUCCESS = "success";
 
     /*最大页数*/
     public static final String maxPage = "maxPage";
-
     /*各种对象实体集合*/
     public static final String callBoards = "callBoards";
-    public static final String user = "user";
+    public static final String users = "users";
 
+    /*--------------------session保存的标示---------------------------*/
+    public static final String login_user = "login_user";
 
     /*--------------------读取配置文件---------------------------*/
     public static final String resource = "conf.xml";

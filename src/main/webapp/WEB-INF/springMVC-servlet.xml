@@ -19,6 +19,15 @@
             <mvc:mapping path="/login/**"/>
             <bean class="com.viv.inteceptor.LoginInteceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <bean class="com.viv.inteceptor.AdminInteceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/sudo/**"/>
+            <bean class="com.viv.inteceptor.SudoInteceptor"/>
+        </mvc:interceptor>
+
     </mvc:interceptors>
 
     <!--视图解析器-->
