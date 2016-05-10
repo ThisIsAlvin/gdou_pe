@@ -4,8 +4,15 @@
     <!--添加一个实体-->
     <insert id="insert" parameterType="com.viv.entity.CallBoard" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO call_board
-        (message, type, recent_time)
-        VALUES (#{message},#{type},#{recent_time})
+        (message,
+         <if test="type != null">
+             type,
+        </if>
+        recent_time)
+        VALUES (#{message},
+        <if test="type != null">
+            #{type},
+        </if> CURRENT_TIMESTAMP())
     </insert>
     <!--删除一个实体-->
     <delete id="delete" parameterType="java.lang.Integer">
@@ -14,7 +21,14 @@
     </delete>
     <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
     <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.CallBoard">
-        SELECT * FROM call_board
+        SELECT
+        <if test="count == null">
+            *
+        </if>
+        <if test="count != null">
+            COUNT(1) AS id
+        </if>
+        FROM call_board
         <where>
             <if test="like == null">
                 <if test="callBoard != null">

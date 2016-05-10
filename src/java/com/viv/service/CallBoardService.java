@@ -13,16 +13,13 @@ import java.util.Map;
  */
 public class CallBoardService {
 
-
-
-
     public Integer insert(CallBoard callBoard) {
         SqlSession session = SessionFactory.getSessionFactory().openSession();
         try {
             CallBoardOperation callBoardOperation = session.getMapper(CallBoardOperation.class);
-            Integer id = callBoardOperation.insert(callBoard);
+            callBoardOperation.insert(callBoard);
             session.commit();
-            return id;
+            return callBoard.getId();
         }finally {
             session.close();
         }

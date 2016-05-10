@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.viv.dao.UserOperation">
+    <!--添加一个实体-->
+    <insert id="insert" parameterType="com.viv.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user
+        (name, password,
+        <if test="sudo != null">
+            sudo,
+        </if>
+        <if test="u_power != null">
+            u_power,
+        </if>
+        <if test="power != null">
+            power,
+        </if>
+        <if test="status != null">
+            status,
+        </if>
+        recent_time)
+        VALUES (#{name},#{password},
+        <if test="sudo != null">
+            #{sudo},
+        </if>
+        <if test="u_power != null">
+            #{u_power},
+        </if>
+        <if test="power != null">
+            #{power},
+        </if>
+        <if test="status != null">
+            #{status},
+        </if>
+        CURRENT_TIMESTAMP() )
+    </insert>
+    <!--删除一个实体-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM user
+        WHERE id = #{id}
+    </delete>
+    <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
+    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.User">
+        SELECT
+        <if test="count == null">
+            *
+        </if>
+        <if test="count != null">
+            COUNT(1) AS id
+        </if>
+        FROM user
+        <where>
+            <if test="like == null">
+                <if test="user != null">
+                    <if test="user.id != null">
+                        id = #{user.id}
+                    </if>
+                    <if test="user.name != null">
+                        AND name = #{user.name}
+                    </if>
+                    <if test="user.password != null">
+                        AND password = #{callBoard.password}
+                    </if>
+                    <if test="user.sudo != null">
+                        AND sudo = #{user.sudo}
+                    </if>
+                    <if test="user.u_power != null">
+                        AND u_power = #{user.u_power}
+                    </if>
+                    <if test="user.power != null">
+                        AND power = #{user.power}
+                    </if>
+                    <if test="user.status != null">
+                        AND status = #{user.status}
+                    </if>
+                    <if test="user.recent_time != null">
+                        AND recent_time = #{user.recent_time}
+                    </if>
+                </if>
+            </if>
+            <if test="like != null">
+                <if test="user != null">
+                    <if test="user.id != null">
+                        id LIKE #{user.id}
+                    </if>
+                    <if test="user.name != null">
+                        AND name LIKE #{user.name}
+                    </if>
+                    <if test="user.password != null">
+                        AND password LIKE #{callBoard.password}
+                    </if>
+                    <if test="user.sudo != null">
+                        AND sudo LIKE #{user.sudo}
+                    </if>
+                    <if test="user.u_power != null">
+                        AND u_power LIKE #{user.u_power}
+                    </if>
+                    <if test="user.power != null">
+                        AND power LIKE #{user.power}
+                    </if>
+                    <if test="user.status != null">
+                        AND status LIKE #{user.status}
+                    </if>
+                </if>
+                <if test="startTime != null">
+                    AND recent_time &gt;= #{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND recent_time &lt;= #{endTime}
+                </if>
+            </if>
+        </where>
+        <if test="page != null">
+            ORDER BY ${page.orderFieldStr} ${page.orderDirectionStr}
+            <if test="page.pageStart>-1 and page.pageSize>-1">
+                limit #{page.pageStart},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+    <!--动态更新一个实体-->
+    <update id="update" parameterType="com.viv.entity.User">
+        UPDATE user
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="sudo != null">
+                sudo = #{sudo},
+            </if>
+            <if test="u_power != null">
+                u_power = #{u_power},
+            </if>
+            <if test="power != null">
+                power = #{power},
+            </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            <if test="recent_time != null">
+                recent_time = #{recent_time}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>
