@@ -9,15 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class Page_Controller {
 
-    /*404页*/
-    @RequestMapping(value = "/**")
-    public String noFount(){
-        return "404.jsp";
-    }
+//    /*404页*/
+//    @RequestMapping(value = "/")
+//    public String noFount(){
+//        return "404.jsp";
+//    }
 
     /*首页*/
     @RequestMapping(value = "/")
     public String index() {
-        return "index.jsp";
+        return "index.html";
+    }
+
+    /*获取公告也页*/
+    @RequestMapping(value = "/callBoard")
+    public String callBoard(){
+        return "callBoard.html";
     }
 }

@@ -4,12 +4,18 @@
     <!--添加一个实体-->
     <insert id="insert" parameterType="com.viv.entity.CallBoard" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO call_board
-        (message,
+        ( title,message,
+        <if test="img != null">
+            img,
+        </if>
          <if test="type != null">
              type,
         </if>
         recent_time)
-        VALUES (#{message},
+        VALUES ( #{title},#{message},
+        <if test="img != null">
+            #{img},
+        </if>
         <if test="type != null">
             #{type},
         </if> CURRENT_TIMESTAMP())
@@ -35,8 +41,14 @@
                     <if test="callBoard.id != null">
                         id = #{callBoard.id}
                     </if>
+                    <if test="callBoard.title != null">
+                        AND title = #{callBoard.title}
+                    </if>
                     <if test="callBoard.message != null">
                         AND message = #{callBoard.message}
+                    </if>
+                    <if test="callBoard.img != null">
+                        AND img = #{callBoard.img}
                     </if>
                     <if test="callBoard.type != null">
                         AND type = #{callBoard.type}
@@ -51,8 +63,14 @@
                     <if test="callBoard.id != null">
                         id LIKE #{callBoard.id}
                     </if>
+                    <if test="callBoard.title != null">
+                        AND title LIKE #{callBoard.title}
+                    </if>
                     <if test="callBoard.message != null">
                         AND message LIKE #{callBoard.message}
+                    </if>
+                    <if test="callBoard.img != null">
+                        AND img LIKE #{callBoard.img}
                     </if>
                     <if test="callBoard.type != null">
                         AND type LIKE #{callBoard.type}
@@ -77,8 +95,14 @@
     <update id="update" parameterType="com.viv.entity.CallBoard">
         UPDATE call_board
         <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
             <if test="message != null">
                 message = #{message},
+            </if>
+            <if test="img != null">
+                img = #{img},
             </if>
             <if test="type != null">
                 type = #{type},

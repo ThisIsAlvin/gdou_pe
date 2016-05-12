@@ -7,7 +7,9 @@ import java.sql.Timestamp;
  */
 public class CallBoard {
     private Integer id;
+    private String title;
     private String message;
+    private String img;
     private Integer type;
     private Timestamp recent_time;
 
@@ -17,6 +19,14 @@ public class CallBoard {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getMessage() {
@@ -33,6 +43,14 @@ public class CallBoard {
 
     public void setRecent_time(Timestamp recent_time) {
         this.recent_time = recent_time;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Integer getType() {
