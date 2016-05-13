@@ -21,10 +21,10 @@ import java.util.Map;
 public class Visitor_Login_Controller {
     UserService userService = new UserService();
     /*---------------------------------page-start-----------------------------------*/
-    @RequestMapping(value = "/login")
-    public String login(){
-        return "login.jsp";
-    }
+//    @RequestMapping(value = "/login")
+//    public String login(){
+//        return "login.html";
+//    }
     /*---------------------------------page-end-----------------------------------*/
     @RequestMapping(value = "/login",params = "json")
     public @ResponseBody Map<String,Object> login_json(HttpSession session, User user){

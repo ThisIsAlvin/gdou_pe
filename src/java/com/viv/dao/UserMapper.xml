@@ -58,7 +58,7 @@
                         AND name = #{user.name}
                     </if>
                     <if test="user.password != null">
-                        AND password = #{callBoard.password}
+                        AND password = #{user.password}
                     </if>
                     <if test="user.sudo != null">
                         AND sudo = #{user.sudo}
@@ -86,7 +86,7 @@
                         AND name LIKE #{user.name}
                     </if>
                     <if test="user.password != null">
-                        AND password LIKE #{callBoard.password}
+                        AND password LIKE #{user.password}
                     </if>
                     <if test="user.sudo != null">
                         AND sudo LIKE #{user.sudo}

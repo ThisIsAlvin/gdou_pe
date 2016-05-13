@@ -26,4 +26,11 @@ public class Page_Controller {
     public String callBoard(){
         return "callBoard.html";
     }
+
+    /*获取登录页面*/
+    @RequestMapping(value = "/visitor/login")
+    public String login(){
+        return "login.html";
+    }
+
 }
