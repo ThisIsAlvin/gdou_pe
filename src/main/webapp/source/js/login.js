@@ -11,11 +11,11 @@ if (window.XMLHttpRequest) {
 function onlogin(){
     var name = document.getElementById("name").value;
     var password = document.getElementById("password").value;
-    if (name == null) {
+    if (name.value == null) {
         alert("用户名不能为空");
         return;
     }
-    if (password == null) {
+    if (password.value == null) {
         alert("密码不能为空");
         return;
     }
