@@ -21,6 +21,11 @@ public class Config {
     /*各各实体的常量值*/
     public static final String callBoard = "callBoard";
     public static final String user = "user";
+    public static final String field = "field";
+    public static final String field_book = "field_book";
+    public static final String tool = "tool";
+    public static final String tool_book = "tool_book";
+    public static final String match = "match";
 
     /*--------------------页面返回常用标示---------------------------*/
     /*返回result*/

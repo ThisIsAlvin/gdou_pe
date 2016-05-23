@@ -16,5 +16,9 @@
     <mappers>
         <mapper resource="com/viv/dao/CallBoardMapper.xml"/>
         <mapper resource="com/viv/dao/UserMapper.xml"/>
+        <mapper resource="com/viv/dao/FieldMapper.xml"/>
+        <mapper resource="com/viv/dao/FieldBookMapper.xml"/>
+        <mapper resource="com/viv/dao/ToolMapper.xml"/>
+        <mapper resource="com/viv/dao/ToolBookMapper.xml"/>
     </mappers>
 </configuration>

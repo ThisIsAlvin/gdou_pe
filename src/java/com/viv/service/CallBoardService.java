@@ -40,6 +40,9 @@ public class CallBoardService {
         SqlSession session = SessionFactory.getSessionFactory().openSession();
         if (map.containsKey(Config.like) && map.containsKey(Config.callBoard)) {
             CallBoard callBoard = (CallBoard) map.get(Config.callBoard);
+            if (callBoard.getTitle() != null) {
+                callBoard.setTitle("%" + callBoard.getTitle() + "%");
+            }
             if (callBoard.getMessage() != null) {
                 callBoard.setMessage("%" + callBoard.getMessage() + "%");
             }

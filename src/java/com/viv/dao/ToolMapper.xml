@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.viv.dao.ToolOperation">
+    <!--添加一个实体-->
+    <insert id="insert" parameterType="com.viv.entity.Tool" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tool
+        ( title,message,
+        <if test="img != null">
+            img,
+        </if>
+         <if test="is_bad != null">
+             is_bad,
+        </if>
+        )
+        VALUES ( #{title},#{message},
+        <if test="img != null">
+            #{img},
+        </if>
+        <if test="is_bad != null">
+            #{is_bad},
+        </if>
+        )
+    </insert>
+    <!--删除一个实体-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM tool
+        WHERE id = #{id}
+    </delete>
+    <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
+    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.Tool">
+        SELECT
+        <if test="count == null">
+            *
+        </if>
+        <if test="count != null">
+            COUNT(1) AS id
+        </if>
+        FROM tool
+        <where>
+            <if test="like == null">
+                <if test="tool != null">
+                    <if test="tool.id != null">
+                        id = #{tool.id}
+                    </if>
+                    <if test="tool.title != null">
+                        AND title = #{tool.title}
+                    </if>
+                    <if test="tool.message != null">
+                        AND message = #{tool.message}
+                    </if>
+                    <if test="tool.img != null">
+                        AND img = #{tool.img}
+                    </if>
+                    <if test="tool.is_bad != null">
+                        AND is_bad = #{tool.is_bad}
+                    </if>
+                </if>
+            </if>
+            <if test="like != null">
+                <if test="tool != null">
+                    <if test="tool.id != null">
+                        id LIKE #{tool.id}
+                    </if>
+                    <if test="tool.title != null">
+                        AND title LIKE #{tool.title}
+                    </if>
+                    <if test="tool.message != null">
+                        AND message LIKE #{tool.message}
+                    </if>
+                    <if test="tool.img != null">
+                        AND img LIKE #{tool.img}
+                    </if>
+                    <if test="tool.is_bad != null">
+                        AND is_bad LIKE #{tool.is_bad}
+                    </if>
+                </if>
+            </if>
+        </where>
+        <if test="page != null">
+            ORDER BY ${page.orderFieldStr} ${page.orderDirectionStr}
+            <if test="page.pageStart>-1 and page.pageSize>-1">
+                limit #{page.pageStart},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+    <!--动态更新一个实体-->
+    <update id="update" parameterType="com.viv.entity.Tool">
+        UPDATE tool
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="message != null">
+                message = #{message},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+            <if test="is_bad != null">
+                is_bad = #{is_bad},
+            </if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

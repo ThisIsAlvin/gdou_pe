@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.viv.dao.CallBoardOperation">
+    <!--添加一个实体-->
+    <insert id="insert" parameterType="com.viv.entity.Field_book" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO field_book
+        (field_id, book_messge, book_by, start_time, end_time,
+        <if test="reply != null">
+            reply,
+        </if> status, recent_time)
+         VALUES (#{field_id},#{book_message},#{book_by},#{start_time},#{end_time},
+        <if test="reply != null">
+            #{reply},
+        </if> #{status},CURRENT_TIMESTAMP())
+    </insert>
+    <!--删除一个实体-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM field_book
+        WHERE id = #{id}
+    </delete>
+    <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
+    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.Field_book">
+        SELECT
+        <if test="count == null">
+            *
+        </if>
+        <if test="count != null">
+            COUNT(1) AS id
+        </if>
+        FROM field_book
+        <where>
+            <if test="like == null">
+                <if test="field_book != null">
+                    <if test="field_book.id != null">
+                        id = #{field_book.id}
+                    </if>
+                    <if test="field_book.field_id != null">
+                        AND field_id = #{field_book.field_id}
+                    </if>
+                    <if  test="field_book.book_message != null">
+                        AND book_message = #{field_book.book_message}
+                    </if>
+                    <if test="field_book.book_by != null">
+                        AND book_by = #{field_book.book_by}
+                    </if>
+                    <if test="field_book.reply != null">
+                        AND reply = #{field_book.reply}
+                    </if>
+                    <if test="field_book.status != null">
+                        AND status = #{field_book.status}
+                    </if>
+                    <if test="field_book.start_time != null">
+                        AND start_time = #{field_book.start_time}
+                    </if>
+                    <if test="field_book.end_time != null">
+                        AND end_time = #{field_book.end_time}
+                    </if>
+                    <if test="field_book.recent_time != null">
+                        AND recent_time = #{field_book.recent_time}
+                    </if>
+                </if>
+            </if>
+            <if test="like != null">
+                <if test="field_book != null">
+                    <if test="field_book.id != null">
+                        id LIKE #{field_book.id}
+                    </if>
+                    <if test="field_book.field_id != null">
+                        AND field_id LIKE #{field_book.field_id}
+                    </if>
+                    <if  test="field_book.book_message != null">
+                        AND book_message LIKE #{field_book.book_message}
+                    </if>
+                    <if test="field_book.book_by != null">
+                        AND book_by LIKE #{field_book.book_by}
+                    </if>
+                    <if test="field_book.reply != null">
+                        AND reply LIKE #{field_book.reply}
+                    </if>
+                    <if test="field_book.status != null">
+                        AND status LIKE #{field_book.status}
+                    </if>
+                    <if test="field_book.start_time != null">
+                        AND start_time &gt;= #{field_book.start_time}
+                    </if>
+                    <if test="field_book.end_time != null">
+                        AND end_time &lt;= #{field_book.end_time}
+                    </if>
+                </if>
+                <if test="startTime != null">
+                    AND recent_time &gt;= #{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND recent_time &lt;= #{endTime}
+                </if>
+            </if>
+        </where>
+        <if test="page != null">
+            ORDER BY ${page.orderFieldStr} ${page.orderDirectionStr}
+            <if test="page.pageStart>-1 and page.pageSize>-1">
+                limit #{page.pageStart},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+    <!--动态更新一个实体-->
+    <update id="update" parameterType="com.viv.entity.Field_book">
+        UPDATE field_book
+        <set>
+            <if test="field_id != null">
+                field_id = #{field_id},
+            </if>
+            <if test="book_message ！= null">
+                book_message = #{book_message},
+            </if>
+            <if test="book_by != null">
+                book_by = #{book_by},
+            </if>
+            <if  test="start_time != null">
+                start_time = #{start_time},
+            </if>
+            <if test="end_time != null">
+                end_time = #{end_time},
+            </if>
+            <if test="reply != null">
+                reply = #{reply},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="recent_time != null">
+                recent_time = #{recent_time}
+            </if>
+
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>

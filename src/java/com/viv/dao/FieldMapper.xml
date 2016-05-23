@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.viv.dao.FieldOperation">
+    <!--添加一个实体-->
+    <insert id="insert" parameterType="com.viv.entity.Field" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO field
+        ( title,message,
+        <if test="img != null">
+            img,
+        </if>
+        )
+        VALUES ( #{title},#{message},
+        <if test="img != null">
+            #{img},
+        </if>
+        )
+    </insert>
+    <!--删除一个实体-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM call_board
+        WHERE id = #{id}
+    </delete>
+    <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
+    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.Field">
+        SELECT
+        <if test="count == null">
+            *
+        </if>
+        <if test="count != null">
+            COUNT(1) AS id
+        </if>
+        FROM field
+        <where>
+            <if test="like == null">
+                <if test="field != null">
+                    <if test="field.id != null">
+                        id = #{field.id}
+                    </if>
+                    <if test="field.title != null">
+                        AND title = #{field.title}
+                    </if>
+                    <if test="field.message != null">
+                        AND message = #{field.message}
+                    </if>
+                    <if test="field.img != null">
+                        AND img = #{field.img}
+                    </if>
+                </if>
+            </if>
+            <if test="like != null">
+                <if test="field != null">
+                    <if test="field.id != null">
+                        id LIKE #{field.id}
+                    </if>
+                    <if test="field.title != null">
+                        AND title LIKE #{field.title}
+                    </if>
+                    <if test="field.message != null">
+                        AND message LIKE #{field.message}
+                    </if>
+                    <if test="field.img != null">
+                        AND img LIKE #{field.img}
+                    </if>
+                </if>
+            </if>
+        </where>
+        <if test="page != null">
+            ORDER BY ${page.orderFieldStr} ${page.orderDirectionStr}
+            <if test="page.pageStart>-1 and page.pageSize>-1">
+                limit #{page.pageStart},#{page.pageSize}
+            </if>
+        </if>
+    </select>
+    <!--动态更新一个实体-->
+    <update id="update" parameterType="com.viv.entity.Field">
+        UPDATE field
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="message != null">
+                message = #{message},
+            </if>
+            <if test="img != null">
+                img = #{img},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+</mapper>
