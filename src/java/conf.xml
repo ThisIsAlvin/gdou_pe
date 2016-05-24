@@ -20,5 +20,6 @@
         <mapper resource="com/viv/dao/FieldBookMapper.xml"/>
         <mapper resource="com/viv/dao/ToolMapper.xml"/>
         <mapper resource="com/viv/dao/ToolBookMapper.xml"/>
+
     </mappers>
 </configuration>
