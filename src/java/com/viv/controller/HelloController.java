@@ -6,17 +6,23 @@ import com.viv.entity.User;
 import com.viv.exception.ControllerException;
 import com.viv.service.CallBoardService;
 import com.viv.service.UserService;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.DateFormatter;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by viv on 16-3-28.
@@ -114,6 +120,40 @@ public class HelloController {
     public @ResponseBody String index8(){
         userService.delete(5);
         return "delete";
+    }
+
+    @RequestMapping(value = "/test/upload")
+    public String index9(){
+        return "uploadTest.html";
+    }
+
+    @RequestMapping(value = "/test/upload", params = "json")
+    public @ResponseBody String index10(HttpServletRequest request, HttpServletResponse response){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        if (multipartResolver.isMultipart(request)) {
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            Iterator<String> iter = multiRequest.getFileNames();
+            while (iter.hasNext()) {
+                MultipartFile file = multiRequest.getFile(iter.next());
+                if (file != null) {
+                    String myFileName = file.getOriginalFilename();
+                    if (myFileName.trim() != "") {
+                        System.out.println(myFileName);
+                        String fileName  = "demoUpload" + file.getOriginalFilename()+ ts_date;
+                        String path = request.getSession().getServletContext().getRealPath("source/upload/img");
+                        String fileUrl = path+"/"+fileName;
+                        File localFile = new File(fileUrl);
+                        try {
+                            file.transferTo(localFile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+        return "success";
     }
 
 }
