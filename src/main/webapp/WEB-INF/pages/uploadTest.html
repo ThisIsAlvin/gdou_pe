@@ -5,9 +5,21 @@
     <title>Title</title>
 </head>
 <body>
-<form name="uploadTest" action="/test/upload?json" enctype="multipart/form-data" method="post">
-    <input type="file" name="file">
-    <input type="submit" value="上传">
+<form name="uploadTest" action="/test/upload?callBoard" enctype="multipart/form-data" method="post">
+    <p>callBoard</p>
+    <input type="file" name="file1"/>
+    <input type="file" name="file2"/>
+    <input type="text" name="title"/>
+    <input type="text" name="message"/>
+    <input type="submit" value="上传"/>
+</form>
+<form name="uploadTest" action="/test/upload?field" enctype="multipart/form-data" method="post">
+    <p>field</p>
+    <input type="file" name="file1"/>
+    <input type="file" name="file2"/>
+    <input type="text" name="title"/>
+    <input type="text" name="message"/>
+    <input type="submit" value="上传"/>
 </form>
 </body>
 </html>

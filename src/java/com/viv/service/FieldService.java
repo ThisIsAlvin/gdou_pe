@@ -6,7 +6,10 @@ import com.viv.dao.FieldOperation;
 import com.viv.entity.CallBoard;
 import com.viv.entity.Field;
 import org.apache.ibatis.session.SqlSession;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +21,15 @@ public class FieldService {
     public Integer insert(Field field) {
         SqlSession session = SessionFactory.getSessionFactory().openSession();
         try {
+            if (field.getImgs() != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    field.setImg(mapper.writeValueAsString(field.getImgs()));
+                    field.setImgs(null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             FieldOperation fieldOperation = session.getMapper(FieldOperation.class);
             fieldOperation.insert(field);
             session.commit();
@@ -54,6 +66,24 @@ public class FieldService {
             FieldOperation fieldOperation = session.getMapper(FieldOperation.class);
             List<Field> fields = fieldOperation.select(map);
             session.commit();
+
+            if (!map.containsKey(Config.count)) {
+                Iterator<Field> fieldIterator = fields.iterator();
+                ObjectMapper mapper = new ObjectMapper();
+                while (fieldIterator.hasNext()) {
+                    Field f = fieldIterator.next();
+                    List imgs = null;
+                    try {
+                        imgs = mapper.readValue(f.getImg(), List.class);
+                        f.setImgs(imgs);
+                        f.setImg(null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+
+                    }
+                }
+            }
+
             return fields;
         }finally {
             session.close();

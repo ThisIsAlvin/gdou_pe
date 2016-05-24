@@ -4,7 +4,10 @@ import com.viv.Config;
 import com.viv.dao.CallBoardOperation;
 import com.viv.entity.CallBoard;
 import org.apache.ibatis.session.SqlSession;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,15 @@ public class CallBoardService {
     public Integer insert(CallBoard callBoard) {
         SqlSession session = SessionFactory.getSessionFactory().openSession();
         try {
+            if (callBoard.getImgs() != null) {
+                ObjectMapper mapper = new ObjectMapper();
+                try {
+                    callBoard.setImg(mapper.writeValueAsString(callBoard.getImgs()));
+                    callBoard.setImgs(null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             CallBoardOperation callBoardOperation = session.getMapper(CallBoardOperation.class);
             callBoardOperation.insert(callBoard);
             session.commit();
@@ -52,6 +64,22 @@ public class CallBoardService {
             CallBoardOperation callBoardOperation = session.getMapper(CallBoardOperation.class);
             List<CallBoard> callBoards = callBoardOperation.select(map);
             session.commit();
+
+            if (!map.containsKey(Config.count)) {
+                Iterator<CallBoard> callBoardIterator = callBoards.iterator();
+                ObjectMapper mapper = new ObjectMapper();
+                while (callBoardIterator.hasNext()) {
+                    CallBoard call =  callBoardIterator.next();
+                    try {
+                        List imgs = mapper.readValue(call.getImg(), List.class);
+                        call.setImgs(imgs);
+                        call.setImg(null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             return callBoards;
         }finally {
             session.close();

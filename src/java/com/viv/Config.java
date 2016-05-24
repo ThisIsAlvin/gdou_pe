@@ -44,6 +44,8 @@ public class Config {
     /*各种对象实体集合*/
     public static final String callBoards = "callBoards";
     public static final String users = "users";
+    public static final String fields = "fields";
+
 
     /*--------------------session保存的标示---------------------------*/
     public static final String login_user = "login_user";

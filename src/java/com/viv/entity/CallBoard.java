@@ -1,6 +1,7 @@
 package com.viv.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by viv on 16-5-9.
@@ -10,6 +11,7 @@ public class CallBoard {
     private String title;
     private String message;
     private String img;
+    private List<String> imgs;
     private Integer type;
     private Timestamp recent_time;
 
@@ -59,5 +61,13 @@ public class CallBoard {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public List<String> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
     }
 }

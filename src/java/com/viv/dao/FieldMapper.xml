@@ -4,14 +4,14 @@
     <!--添加一个实体-->
     <insert id="insert" parameterType="com.viv.entity.Field" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO field
-        ( title,message,
+        ( title,message
         <if test="img != null">
-            img,
+            ,img
         </if>
         )
-        VALUES ( #{title},#{message},
+        VALUES ( #{title},#{message}
         <if test="img != null">
-            #{img},
+            ,#{img}
         </if>
         )
     </insert>

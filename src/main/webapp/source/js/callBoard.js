@@ -42,52 +42,19 @@ function loadDate(data){
     var board = document.getElementById("board");
 
     var content = null;
+    var unixTimestamp = null;
+    var commonTime = null;
     for(var i = 0; i < data.callBoards.length; i++) {
+        unixTimestamp = new Date(data.callBoards[i].recent_time);
+        commonTime = unixTimestamp.toLocaleString();
         if (content == null) {
-            content ="<tr><td>"+data.callBoards[i].title+"</td><td>"+data.callBoards[i].message+"</td><td><img src='/source/img/"+data.callBoards[i].img+"'/></td><td>"+data.callBoards[i].recent_time+"</td></tr>";
+            content ="<tr><td>"+data.callBoards[i].title+"</td><td>"+data.callBoards[i].message+"</td><td><img src='/source/upload/img/"+data.callBoards[i].imgs[0]+"'/></td><td>"+commonTime+"</td></tr>";
         }else {
-            content += "<tr><td>"+data.callBoards[i].title+"</td><td>"+data.callBoards[i].message+"</td><td><img src='/source/img/"+data.callBoards[i].img+"'/></td><td>"+data.callBoards[i].recent_time+"</td></tr>";
+            content += "<tr><td>"+data.callBoards[i].title+"</td><td>"+data.callBoards[i].message+"</td><td><img src='/source/upload/img/"+data.callBoards[i].imgs[0]+"'/></td><td>"+commonTime+"</td></tr>";
 
         }
 
     }
     board.innerHTML = content;
-
-/*    var tr;
-    var td;
-    var title;
-    var message;
-    var img;
-    var time;
-    var anode;
-    for(var i = 0; i < data.callBoards.length; i++) {
-        tr = document.createElement("tr");
-
-        td = document.createElement("td");
-        message = document.createElement("a");
-        anode = document.createTextNode(data.callBoards[i].message);
-        message.appendChild(anode);
-        td.appendChild(message);
-        tr.appendChild(td);
-
-        td = document.createElement("td");
-        time = document.createElement("p");
-        anode = document.createTextNode(data.callBoards[i].recent_time);
-        time.appendChild(anode);
-        td.appendChild(time);
-        tr.appendChild(td);
-
-        td = document.createElement("td");
-        title = document.createElement("p");
-        title.innerHTML = ""
-
-
-        board.appendChild(tr);
-    }
-
-    img = document.createElement("img");
-    img.src = "../../source/img/2.png";
-    board.appendChild(img);*/
-
 
 }

@@ -2,10 +2,13 @@ package com.viv.controller;
 
 import com.viv.Config;
 import com.viv.entity.CallBoard;
+import com.viv.entity.Field;
 import com.viv.entity.User;
 import com.viv.exception.ControllerException;
 import com.viv.service.CallBoardService;
+import com.viv.service.FieldService;
 import com.viv.service.UserService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
@@ -36,6 +39,7 @@ public class HelloController {
     Timestamp ts_date = Timestamp.valueOf(nowTime);
     CallBoardService callBoardService = new CallBoardService();
     UserService userService = new UserService();
+    FieldService fieldService = new FieldService();
 
     @RequestMapping(value = "/test/callBoard/insert")
     public @ResponseBody String index1() {
@@ -127,9 +131,11 @@ public class HelloController {
         return "uploadTest.html";
     }
 
-    @RequestMapping(value = "/test/upload", params = "json")
-    public @ResponseBody String index10(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = "/test/upload", params = "callBoard")
+    public @ResponseBody String index10(HttpServletRequest request, HttpServletResponse response,String title,String message){
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        List<String> fileNames = new ArrayList<>();
+        int i = 0;
         if (multipartResolver.isMultipart(request)) {
             MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
             Iterator<String> iter = multiRequest.getFileNames();
@@ -139,12 +145,14 @@ public class HelloController {
                     String myFileName = file.getOriginalFilename();
                     if (myFileName.trim() != "") {
                         System.out.println(myFileName);
-                        String fileName  = "demoUpload" + file.getOriginalFilename()+ ts_date;
+                        String fileName  = "callBoard-"+i+"-"+ ts_date + ".jpg";
                         String path = request.getSession().getServletContext().getRealPath("source/upload/img");
                         String fileUrl = path+"/"+fileName;
                         File localFile = new File(fileUrl);
                         try {
                             file.transferTo(localFile);
+                            fileNames.add(fileName);
+                            i++;
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -152,7 +160,50 @@ public class HelloController {
                 }
             }
         }
+        CallBoard callBoard = new CallBoard();
+        callBoard.setTitle(title);
+        callBoard.setMessage(message);
+        callBoard.setImgs(fileNames);
 
+        Integer id = callBoardService.insert(callBoard);
+        return "success";
+    }
+
+    @RequestMapping(value = "/test/upload", params = "field")
+    public @ResponseBody String index11(HttpServletRequest request, HttpServletResponse response,String title,String message){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        List<String> fileNames = new ArrayList<>();
+        int i = 0;
+        if (multipartResolver.isMultipart(request)) {
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            Iterator<String> iter = multiRequest.getFileNames();
+            while (iter.hasNext()) {
+                MultipartFile file = multiRequest.getFile(iter.next());
+                if (file != null) {
+                    String myFileName = file.getOriginalFilename();
+                    if (myFileName.trim() != "") {
+                        System.out.println(myFileName);
+                        String fileName  = "field-"+i+"-"+ ts_date + ".jpg";
+                        String path = request.getSession().getServletContext().getRealPath("source/upload/img");
+                        String fileUrl = path+"/"+fileName;
+                        File localFile = new File(fileUrl);
+                        try {
+                            file.transferTo(localFile);
+                            fileNames.add(fileName);
+                            i++;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        Field field = new Field();
+        field.setTitle(title);
+        field.setMessage(message);
+        field.setImgs(fileNames);
+
+        Integer id = fieldService.insert(field);
         return "success";
     }
 
