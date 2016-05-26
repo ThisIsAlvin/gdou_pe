@@ -5,21 +5,29 @@
     <title>Title</title>
 </head>
 <body>
-<form name="uploadTest" action="/test/upload?callBoard" enctype="multipart/form-data" method="post">
+<form name="uploadCallBoard" action="/test/upload?callBoard" enctype="multipart/form-data" method="post">
     <p>callBoard</p>
     <input type="file" name="file1"/>
     <input type="file" name="file2"/>
-    <input type="text" name="title"/>
-    <input type="text" name="message"/>
+    title<input type="text" name="title"/>
+    message<input type="text" name="message"/>
     <input type="submit" value="上传"/>
 </form>
-<form name="uploadTest" action="/test/upload?field" enctype="multipart/form-data" method="post">
+<form name="uploadField" action="/test/upload?field" enctype="multipart/form-data" method="post">
     <p>field</p>
     <input type="file" name="file1"/>
     <input type="file" name="file2"/>
-    <input type="text" name="title"/>
-    <input type="text" name="message"/>
+    title<input type="text" name="title"/>
+    message<input type="text" name="message"/>
     <input type="submit" value="上传"/>
+</form>
+<form name="selectField" action="/field/show?json" method="post">
+    <p>选择field</p>
+    <input type="hidden" name="callType" value="1"/>
+    <input type="hidden" name="pageIndex" value="0"/>
+    <input type="date" name="startTime"/>
+    <input type="date" name="endTime"/>
+    <input type="submit" value="提交"/>
 </form>
 </body>
 </html>

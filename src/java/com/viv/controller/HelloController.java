@@ -1,11 +1,10 @@
 package com.viv.controller;
 
 import com.viv.Config;
-import com.viv.entity.CallBoard;
-import com.viv.entity.Field;
-import com.viv.entity.User;
+import com.viv.entity.*;
 import com.viv.exception.ControllerException;
 import com.viv.service.CallBoardService;
+import com.viv.service.FieldBookService;
 import com.viv.service.FieldService;
 import com.viv.service.UserService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -40,6 +39,7 @@ public class HelloController {
     CallBoardService callBoardService = new CallBoardService();
     UserService userService = new UserService();
     FieldService fieldService = new FieldService();
+    FieldBookService fieldBookService = new FieldBookService();
 
     @RequestMapping(value = "/test/callBoard/insert")
     public @ResponseBody String index1() {
@@ -205,6 +205,19 @@ public class HelloController {
 
         Integer id = fieldService.insert(field);
         return "success";
+    }
+
+    @RequestMapping(value = "/test/fieldBook/show")
+    public @ResponseBody List<Field_book> index12(){
+        Map map = new HashMap();
+        Field_book field_book = new Field_book();
+        map.put(Config.field, "1");
+        map.put(Config.field_book, field_book);
+        map.put(Config.like, "1");
+        Page page = new Page(SortDirectionEnum.DESC.toString(), "id", 0, Config.PAGE_SIZE);
+        map.put(Config.page, page);
+        List<Field_book> field_books = fieldBookService.select(map);
+        return field_books;
     }
 
 }

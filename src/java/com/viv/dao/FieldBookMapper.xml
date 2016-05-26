@@ -18,16 +18,51 @@
         DELETE FROM field_book
         WHERE id = #{id}
     </delete>
+    <!--联表返回结果-->
+    <resultMap id="fieldBook_field" type="com.viv.entity.Field_book">
+        <id property="id" column="id"/>
+        <result property="field_id" column="fieldId"/>
+        <result property="book_message" column="book_message"/>
+        <result property="book_by" column="book_by"/>
+        <result property="start_time" column="start_time"/>
+        <result property="end_time" column="end_time"/>
+        <result property="reply" column="reply"/>
+        <result property="status" column="status"/>
+        <result property="recent_time" column="recent_time"/>
+        <association property="field" javaType="com.viv.entity.Field">
+            <id property="id" column="fieldId"/>
+            <result property="title" column="title"/>
+            <result property="message" column="message"/>
+            <result property="img" column="img"/>
+        </association>
+    </resultMap>
     <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
-    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.Field_book">
+    <select id="select" parameterType="java.util.Map" resultMap="fieldBook_field">
         SELECT
         <if test="count == null">
-            *
+            field_book.id AS id,
+            <if test="field != null">
+                field.id AS fieldId,
+                field.title AS title,
+                field.message AS message,
+                field.img AS img,
+            </if>
+            field_book.book_messge AS book_message,
+            field_book.book_by AS book_by,
+            field_book.start_time AS start_time,
+            field_book.end_time AS end_time,
+            field_book.reply AS reply,
+            field_book.status AS status,
+            field_book.recent_time AS recent_time
         </if>
         <if test="count != null">
             COUNT(1) AS id
         </if>
         FROM field_book
+        <if test="field != null">
+            JOIN field
+            ON field.id = field_book.field_id
+        </if>
         <where>
             <if test="like == null">
                 <if test="field_book != null">
@@ -81,10 +116,10 @@
                         AND status LIKE #{field_book.status}
                     </if>
                     <if test="field_book.start_time != null">
-                        AND start_time &gt;= #{field_book.start_time}
+                        AND start_time &gt;= #{field_book.end_time}
                     </if>
                     <if test="field_book.end_time != null">
-                        AND end_time &lt;= #{field_book.end_time}
+                        OR end_time &lt;= #{field_book.start_time}
                     </if>
                 </if>
                 <if test="startTime != null">

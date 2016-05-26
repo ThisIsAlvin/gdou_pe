@@ -6,7 +6,10 @@ import com.viv.dao.FieldBookOperation;
 import com.viv.entity.CallBoard;
 import com.viv.entity.Field_book;
 import org.apache.ibatis.session.SqlSession;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +57,22 @@ public class FieldBookService {
             FieldBookOperation fieldBookOperation = session.getMapper(FieldBookOperation.class);
             List<Field_book> field_books = fieldBookOperation.select(map);
             session.commit();
+
+            if (!map.containsKey(Config.count) && map.containsKey(Config.field)) {
+                Iterator<Field_book> field_bookIterator = field_books.iterator();
+                ObjectMapper mapper = new ObjectMapper();
+                while (field_bookIterator.hasNext()) {
+                    Field_book field_book =  field_bookIterator.next();
+                    try {
+                        List imgs = mapper.readValue(field_book.getField().getImg(), List.class);
+                        field_book.getField().setImgs(imgs);
+                        field_book.getField().setImg(null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             return field_books;
         }finally {
             session.close();

@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class Field_book {
     private Integer id;
     private Integer field_id;
+    private Field field;
     private String book_message;
     private Integer book_by;
     private Timestamp start_time;
@@ -86,5 +87,13 @@ public class Field_book {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
     }
 }
