@@ -18,6 +18,8 @@ public class Config {
     /*时间范围查询标志*/
     public static final String startTime = "startTime";
     public static final String endTime = "endTime";
+    /*标记查询时间范围内还是外 不为空标示范围内*/
+    public static final String in_time = "in_time";
     /*各各实体的常量值*/
     public static final String callBoard = "callBoard";
     public static final String user = "user";

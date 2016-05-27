@@ -40,7 +40,7 @@ public class Visitor_Field_Controller {
     public @ResponseBody Map<String ,Object> test(){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, +1);
-        return searchMaxPage_json(0, new Date(), calendar.getTime());
+        return search_json(0,0, new Date(), calendar.getTime(),0);
 
     }
 
