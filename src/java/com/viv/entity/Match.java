@@ -1,6 +1,7 @@
 package com.viv.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by viv on 16-5-23.
@@ -11,6 +12,7 @@ public class Match {
     private String message;
     private String book_message;
     private String img;
+    private List<String> imgs;
     private Integer book_by;
     private Timestamp start_time;
     private Timestamp end_time;
@@ -104,5 +106,13 @@ public class Match {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<String> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
     }
 }

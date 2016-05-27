@@ -3,10 +3,7 @@ package com.viv.controller;
 import com.viv.Config;
 import com.viv.entity.*;
 import com.viv.exception.ControllerException;
-import com.viv.service.CallBoardService;
-import com.viv.service.FieldBookService;
-import com.viv.service.FieldService;
-import com.viv.service.UserService;
+import com.viv.service.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Controller;
@@ -40,6 +37,7 @@ public class HelloController {
     UserService userService = new UserService();
     FieldService fieldService = new FieldService();
     FieldBookService fieldBookService = new FieldBookService();
+    MatchService matchService = new MatchService();
 
     @RequestMapping(value = "/test/callBoard/insert")
     public @ResponseBody String index1() {
@@ -113,11 +111,10 @@ public class HelloController {
         return (userService.update(user)).toString();
     }
 
-    @RequestMapping(value = "/test/user/select")
-    public @ResponseBody List<User> index7(){
+    @RequestMapping(value = "/test/match/select")
+    public @ResponseBody List<Match> index7(){
         Map map = new HashMap();
-        User user = new User();
-        return userService.select(map);
+        return matchService.select(map);
     }
 
     @RequestMapping(value = "/test/user/delete")

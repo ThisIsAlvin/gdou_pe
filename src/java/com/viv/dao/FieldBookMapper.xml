@@ -144,7 +144,7 @@
             <if test="field_id != null">
                 field_id = #{field_id},
             </if>
-            <if test="book_message ！= null">
+            <if test="book_message != null">
                 book_message = #{book_message},
             </if>
             <if test="book_by != null">

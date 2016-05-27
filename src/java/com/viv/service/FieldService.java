@@ -60,6 +60,9 @@ public class FieldService {
             if (field.getMessage() != null) {
                 field.setMessage("%" + field.getMessage() + "%");
             }
+            if (field.getImg() != null) {
+                field.setImg("%" + field.getImg() + "%");
+            }
         }
 
         try {
