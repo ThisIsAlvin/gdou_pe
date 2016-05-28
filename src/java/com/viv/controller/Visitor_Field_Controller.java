@@ -44,6 +44,7 @@ public class Visitor_Field_Controller {
 //
 //    }
 
+    /*查询某时段可预约的场地 目前只支持callType==0*/
     @RequestMapping(value = "/search",params = "json")
     public @ResponseBody Map<String ,Object> search_json(Integer pageIndex,Integer callType,Date startTime,Date endTime,Integer fieldId){
         Map<String, Object> map = new HashMap<>();

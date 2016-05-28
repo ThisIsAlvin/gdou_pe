@@ -18,16 +18,55 @@
         DELETE FROM tool_book
         WHERE id = #{id}
     </delete>
+
+    <!--联表返回结果-->
+    <resultMap id="toolBook_tool" type="com.viv.entity.Tool_book">
+        <id property="id" column="id"/>
+        <result property="tool_id" column="toolId"/>
+        <result property="book_message" column="book_message"/>
+        <result property="book_by" column="book_by"/>
+        <result property="start_time" column="start_time"/>
+        <result property="end_time" column="end_time"/>
+        <result property="reply" column="reply"/>
+        <result property="status" column="status"/>
+        <result property="recent_time" column="recent_time"/>
+        <association property="tool" javaType="com.viv.entity.Tool">
+            <id property="id" column="toolId"/>
+            <result property="title" column="title"/>
+            <result property="message" column="message"/>
+            <result property="img" column="img"/>
+            <result property="is_bad" column="is_bad"/>
+        </association>
+    </resultMap>
+
     <!--动态分页查询 like == null 精确查询  like ！= null 模糊查询-->
-    <select id="select" parameterType="java.util.Map" resultType="com.viv.entity.Tool_book">
+    <select id="select" parameterType="java.util.Map" resultMap="toolBook_tool">
         SELECT
         <if test="count == null">
-            *
+            tool_book.id AS id,
+            <if test="tool != null">
+                tool.id AS toolId,
+                tool.title AS title,
+                tool.message AS message,
+                tool.img AS img,
+                tool.is_bad AS is_bad,
+            </if>
+            tool_book.book_message AS book_message,
+            tool_book.book_by AS book_by,
+            tool_book.start_time AS start_time,
+            tool_book.end_time AS end_time,
+            tool_book.reply AS reply,
+            tool_book.status AS status,
+            tool_book.recent_time AS recent_time
         </if>
         <if test="count != null">
             COUNT(1) AS id
         </if>
-        FROM call_board
+        FROM tool_book
+        <if test="tool != null">
+            JOIN tool
+            ON tool.id = tool_book.id
+        </if>
         <where>
             <if test="like == null">
                 <if test="tool_book != null">
@@ -82,7 +121,7 @@
                         (start_time &gt;= #{tool_book.end_time}
                     </if>
                     <if test="tool_book.start_time != null">
-                        AND end_time &lt;= #{tool_book.start_time})
+                        OR end_time &lt;= #{tool_book.start_time})
                     </if>
 
                 </if>
