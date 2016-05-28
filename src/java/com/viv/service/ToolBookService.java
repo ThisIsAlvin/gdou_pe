@@ -2,9 +2,13 @@ package com.viv.service;
 
 import com.viv.Config;
 import com.viv.dao.ToolBookOperation;
+import com.viv.entity.Field_book;
 import com.viv.entity.Tool_book;
 import org.apache.ibatis.session.SqlSession;
+import org.codehaus.jackson.map.ObjectMapper;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +56,22 @@ public class ToolBookService {
             ToolBookOperation toolBookOperation = session.getMapper(ToolBookOperation.class);
             List<Tool_book> tool_books = toolBookOperation.select(map);
             session.commit();
+
+            if (!map.containsKey(Config.count) && map.containsKey(Config.tool)) {
+                Iterator<Tool_book> tool_bookIterator = tool_books.iterator();
+                ObjectMapper mapper = new ObjectMapper();
+                while (tool_bookIterator.hasNext()) {
+                    Tool_book tool_book =  tool_bookIterator.next();
+                    try {
+                        List imgs = mapper.readValue(tool_book.getTool().getImg(), List.class);
+                        tool_book.getTool().setImgs(imgs);
+                        tool_book.getTool().setImg(null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             return tool_books;
         }finally {
             session.close();

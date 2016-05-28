@@ -60,13 +60,13 @@
             <if test="like != null">
                 <if test="tool_book != null">
                     <if test="tool_book.tool_id != null">
-                        tool_id LIKE  #{tool_book.tool_id}
+                        tool_id =  #{tool_book.tool_id}
                     </if>
                     <if test="tool_book.book_message != null">
                         AND book_message LIKE #{tool_book.book_message}
                     </if>
                     <if test="tool_book.book_by != null">
-                        AND book_by LIKE #{tool_book.book_by}
+                        AND book_by = #{tool_book.book_by}
                     </if>
                     <if test="tool_book.reply != null">
                         AND reply LIKE #{tool_book.reply}
@@ -74,11 +74,15 @@
                     <if test="tool_book.reback != null">
                         AND reback LIKE #{tool_book.reback}
                     </if>
-                    <if test="tool_book.start_time != null">
-                        AND start_time &gt;= #{tool_book.start_time}
-                    </if>
                     <if test="tool_book.end_time != null">
-                        AND end_time &lt;= #{tool_book.end_time}
+                        AND
+                        <if test="in_time != null">
+                            NOT
+                        </if>
+                        (start_time &gt;= #{tool_book.end_time}
+                    </if>
+                    <if test="tool_book.start_time != null">
+                        AND end_time &lt;= #{tool_book.start_time})
                     </if>
 
                 </if>

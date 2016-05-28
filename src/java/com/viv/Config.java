@@ -47,6 +47,7 @@ public class Config {
     public static final String callBoards = "callBoards";
     public static final String users = "users";
     public static final String fields = "fields";
+    public static final String tools = "tools";
 
 
     /*--------------------session保存的标示---------------------------*/

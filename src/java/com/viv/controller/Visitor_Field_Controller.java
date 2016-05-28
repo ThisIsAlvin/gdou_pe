@@ -36,13 +36,13 @@ public class Visitor_Field_Controller {
         binder.registerCustomEditor(Date.class,new CustomDateEditor(dateFormat,true));
     }
 
-    @RequestMapping(value = "/test/search")
-    public @ResponseBody Map<String ,Object> test(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, +1);
-        return search_json(0,0, new Date(), calendar.getTime(),0);
-
-    }
+//    @RequestMapping(value = "/test/search")
+//    public @ResponseBody Map<String ,Object> test(){
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.DATE, +1);
+//        return search_json(0,0, new Date(), calendar.getTime(),0);
+//
+//    }
 
     @RequestMapping(value = "/search",params = "json")
     public @ResponseBody Map<String ,Object> search_json(Integer pageIndex,Integer callType,Date startTime,Date endTime,Integer fieldId){

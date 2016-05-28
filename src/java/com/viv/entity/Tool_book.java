@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class Tool_book {
     private Integer id;
     private Integer tool_id;
+    private Tool tool;
     private String book_message;
     private Integer book_by;
     private Timestamp start_time;
@@ -95,5 +96,13 @@ public class Tool_book {
 
     public void setTool_id(Integer tool_id) {
         this.tool_id = tool_id;
+    }
+
+    public Tool getTool() {
+        return tool;
+    }
+
+    public void setTool(Tool tool) {
+        this.tool = tool;
     }
 }

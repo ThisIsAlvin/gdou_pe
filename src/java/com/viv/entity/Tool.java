@@ -1,5 +1,7 @@
 package com.viv.entity;
 
+import java.util.List;
+
 /**
  * Created by viv on 16-5-23.
  */
@@ -8,6 +10,7 @@ public class Tool {
     private String title;
     private String message;
     private String img;
+    private List<String> imgs;
     private Integer is_bad;
 
     public Integer getId() {
@@ -48,5 +51,13 @@ public class Tool {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<String> getImgs() {
+        return imgs;
+    }
+
+    public void setImgs(List<String> imgs) {
+        this.imgs = imgs;
     }
 }

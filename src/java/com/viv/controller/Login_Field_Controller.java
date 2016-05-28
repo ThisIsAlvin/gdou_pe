@@ -29,24 +29,24 @@ public class Login_Field_Controller {
     FieldService fieldService = new FieldService();
     FieldBookService fieldBookService = new FieldBookService();
 
-    @RequestMapping(value = "/test/search")
-    public @ResponseBody
-    Map<String ,Object> test(HttpSession session){
-        User user = new User();
-        user.setId(1);
-        session.setAttribute(Config.login_user,user);
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.add(Calendar.DATE, +10);
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.add(Calendar.DATE,+12);
-        Field_book field_book = new Field_book();
-        field_book.setField_id(4);
-        field_book.setBook_message("12345");
-        field_book.setStart_time(Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar1.getTime())));
-        field_book.setEnd_time(Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar2.getTime())));
-        return request_json(session, field_book);
-
-    }
+//    @RequestMapping(value = "/test/search")
+//    public @ResponseBody
+//    Map<String ,Object> test(HttpSession session){
+//        User user = new User();
+//        user.setId(1);
+//        session.setAttribute(Config.login_user,user);
+//        Calendar calendar1 = Calendar.getInstance();
+//        calendar1.add(Calendar.DATE, +10);
+//        Calendar calendar2 = Calendar.getInstance();
+//        calendar2.add(Calendar.DATE,+12);
+//        Field_book field_book = new Field_book();
+//        field_book.setField_id(4);
+//        field_book.setBook_message("12345");
+//        field_book.setStart_time(Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar1.getTime())));
+//        field_book.setEnd_time(Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(calendar2.getTime())));
+//        return request_json(session, field_book);
+//
+//    }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
