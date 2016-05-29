@@ -76,7 +76,7 @@
             <if test="like != null">
                 <if test="match != null">
                     <if test="match.id != null">
-                        id LIKE #{match.id}
+                        id = #{match.id}
                     </if>
                     <if test="match.title != null">
                         AND title LIKE #{match.title}
@@ -91,19 +91,23 @@
                         AND img LIKE #{match.img}
                     </if>
                     <if test="match.book_by != null">
-                        AND book_by LIKE #{match.book_by}
+                        AND book_by = #{match.book_by}
                     </if>
                     <if test="match.reply != null">
                         AND reply LIKE #{match.reply}
                     </if>
                     <if test="match.status != null">
-                        AND status LIKE #{match.status}
-                    </if>
-                    <if test="match.start_time != null">
-                        AND start_time &gt;= #{match.end_time}
+                        AND status = #{match.status}
                     </if>
                     <if test="match.end_time != null">
-                        OR end_time &lt;= #{match.start_time}
+                        AND
+                        <if test="in_time != null">
+                            NOT
+                        </if>
+                        (start_time &gt;= #{match.end_time}
+                    </if>
+                    <if test="match.start_time != null">
+                        OR end_time &lt;= #{match.start_time})
                     </if>
                 </if>
                 <if test="startTime != null">

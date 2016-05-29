@@ -48,6 +48,7 @@ public class Config {
     public static final String users = "users";
     public static final String fields = "fields";
     public static final String tools = "tools";
+    public static final String matchs = "matchs";
 
 
     /*--------------------session保存的标示---------------------------*/
